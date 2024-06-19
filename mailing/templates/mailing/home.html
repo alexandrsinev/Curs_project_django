@@ -1,0 +1,85 @@
+{% extends 'client/base.html' %}
+{% block content %}
+<div class="col-4 mb-5">
+    <li>Количество рассылок на сайте - {{ mailing_count }}</li>
+
+</div>
+<div class="col-4 mb-5">
+
+    <li>Количество активных рассылок - {{ is_active_count }}</li>
+
+</div>
+<div class="col-4 mb-5">
+
+    <li>Количество клиентов - {{ clients_count }}</li>
+</div>
+<div class="container">
+    <main>
+        <div class="row">
+            {% if user.is_authenticated or perms.mailing.can_change_setting_status or perms.mailing.add_mailingmessage %}
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Мои рассылки</h5>
+                        <a href="{% url 'mailing:settings_list' %}" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Мои клиенты</h5>
+                        <a href="{% url 'client:list' %}" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if user.is_authenticated or perms.mailing.add_mailingmessage %}
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Мои сообщения</h5>
+                        <a href="{% url 'mailing:list' %}" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Отчет проведенных рассылок</h5>
+                        <a href="{% url 'mailing:mailing_status_list' %}" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="py-5 text-center">
+           <div class="py-5 text-center">
+            <h1>Вас приветствует сервис рассылок - Почтовичек</h1>
+
+            <h4> доставляйте электронные письма в почтовые ящики, запускайте автоматизированные рабочие процессы и
+                общайтесь с новыми клиентами
+            </h4>
+            <h4>предоставляет набор инструментов для удовлетворения ваших потребностей в маркетинге по электронной
+                почте</h4>
+            {% if perms.mailing.add_mailingsettings %}
+            <p class="lead">
+                <a href="{% url 'mailing:create' %}" class="me-3 py-2 link-body-emphasis text-decoration-none">Создать
+                    рассылку</a>
+            </p>
+            {% endif %}
+            <br>
+
+            <div class="row mt-4">
+                <div class="col-12 text-sm-start">
+                    <h5>Случайные статьи</h5>
+                    {% for article in random_blog_list %}
+                    <h1><a href="{% url 'blog:view' article.pk %}" class="nav-link px-2 text-body-dark">{{ article.title }}</a></h1>
+                    <p>{{article.body}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
